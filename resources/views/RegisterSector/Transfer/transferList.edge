@@ -1,0 +1,208 @@
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<style>
+    
+     table {
+        border-collapse: collapse;
+        border: 0.1px solid #000;
+    }
+
+    table td {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+
+    tr {
+        border-collapse: collapse;
+        border: 0.1px solid black;
+    }
+
+    th {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+    table thead tr {
+        font-size: 11px;
+    }
+
+    tr {
+        font-size: 9px;
+    }
+
+    .text-center {
+        text-align: center;
+        padding-left: 2px; !important;
+        padding-right: 2px; !important;
+    }
+
+    .text-left {
+        padding-left: 5px; !important;
+        text-align: left;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    sub-header > div {
+        height: 30px;
+        text-transform: uppercase;
+    }
+
+    tbody>tr>td {
+      text-transform: uppercase !important;
+    }
+    
+
+</style>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <div></div>
+            <span style="font-size: 15px; font-weight: bold">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">
+                    RELATÓRIO DE TRANSFERÊNCIAS NO SISTEMA ({{ data.length }})
+                </p>
+                <p style="margin-top: 0px; padding-top: 0px; font-size: 11px;">PERÍODO: {{ extra_data.period }}</p>
+            </span>
+        </div>
+
+    </div>
+
+    <div style="font-size: 8px; position: absolute; top: 5px; left: 20px; text-align: left; width: 300px;">
+        Impresso em: {{ extra_data.date_print }}
+    </div>
+
+</div>
+
+
+<div>
+
+  <table>
+      <thead style="background-color: #E98531 !important;" class="page-break">
+      <tr style="border: none">
+        <th class="text-center" style="width: 80px">TRANSF</th>
+        <th class="text-left" style="width: 70px;">CONTRATO</th>
+          <th class="text-left" style="width: 70px;">CODIGO</th>
+          <th class="text-left" style="width: 400px;">ENDEREÇO</th>
+          <th class="text-left" style="width: 220px;">MOTIVO</th>
+          <th class="text-left" style="width: 200px;">SOLICITANTE</th>
+          <th class="text-center" style="width: 100px;">TELEFONE</th>
+          <th class="text-left" style="width: 70px;">STATUS</th>
+          <th class="text-left" style="width: 100px;">RESPONSÁVEL</th>
+          <th class="text-left" style="width: 80px;">CONCLUSÃO</th>
+          <th class="text-center" style="width: 80px;">TMP</th>
+      </tr>
+      </thead>
+      <tbody>
+      @each(list in data)
+          <tr>
+          <td class="text-center" style="text-transform: uppercase">{{ dateFormat(list.transfer_date) }}</td>
+              <td class="text-left">{{ !list.contract ? " - " : list.contract }}</td>
+              <td class="text-left" style="text-transform: uppercase">{{ list.immobile_code }}</td>
+              <td class="text-left">{{ list.address }} {{ list.neighborhood }}</td>
+              <td class="text-left">{{ list.reasonTransferData.reason }}</td>
+              <td class="text-left">{{ list.requester_name }}</td>
+              <td class="text-left">
+                  {{ list.requester_phone_01.length === 10 ? setMask("(XX) XXXX-XXXX",list.requester_phone_01) : setMask("(XX) X XXXX-XXXX",list.requester_phone_01) }}
+              </td>
+              <td class="text-left">{{ getStatusTransfer(list.status) }}</td>
+              <td class="text-left">{{ list.responsibleReserve.name }}</td>
+              <td class="text-left">{{ list.end_process ? dateFormat(list.end_process, "DD/MM/YYYY") : " - " }}</td>
+              <td class="text-center">{{ diffDays(list.transfer_date, list.end_process) }} (D)</td>
+          </tr>
+      @endeach
+      </tbody>
+  </table>
+
+
+</div>
+
+<div class="page-break"></div>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <div></div>
+            <span style="font-size: 15px; font-weight: bold">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">
+                    RELATÓRIO DE TRANSFERÊNCIAS NO SISTEMA
+                </p>
+                <p style="margin-top: 0px; padding-top: 0px; font-size: 11px;">PERÍODO: {{ extra_data.period }}</p>
+            </span>
+        </div>
+
+    </div>
+
+    <div style="font-size: 8px; position: absolute; top: 5px; left: 20px; text-align: left; width: 300px;">
+        Impresso em: {{ extra_data.date_print }}
+    </div>
+         
+</div>
+
+<div style="width: 100%; font-size: 12px; font-weight: bold; margin-top: 50px; margin-left: 50px; height: 30px;">
+
+    <div style="float: left; width: 400px;; height: 30px;">NOME</div>
+    <div style="float: left; width: 200px;; height: 30px;">QUANTIDADE</div>
+    <div style="float: left; width: 200px;; height: 30px;">VALOR R$</div>
+
+</div>
+
+@each(per_user in extra_data.report_quantity.per_user)
+    <div style="width: 100%; font-size: 12px; margin-left: 50px; float: left; height: 30px;">
+
+    <div style="float: left; width: 400px;">{{ per_user.name.toUpperCase() }} {{ per_user.last_name.toUpperCase() }}</div>
+        <div style="float: left; width: 200px;">
+            <span style="margin-left: 30px;">{{ per_user.qt }}</span>
+        </div>
+        <div style="float: left; width: 400px;">
+            <span style="margin-left: 5px;">R$ {{ moneyFormat(per_user.value) }} ( {{ per_user.percent }} %)</span>
+        </div>
+    </div>
+@endeach
+
+<div style="width: 100%; font-size: 12px; font-weight: bold; margin-left: 50px; height: 20px;">
+
+    <div style="float: left; width: 400px;">TOTAL</div>
+    <div style="float: left; width: 200px;">
+        <span style="margin-left: 30px;">{{ extra_data.report_quantity.total.qt }}</span>
+    </div>
+    <div style="float: left; width: 400px;">
+        <span style="margin-left: 5px;">R$ {{ moneyFormat(extra_data.report_quantity.total.value) }}</span>
+    </div>
+
+</div>
+
+<div style="width: 100%; float:left; font-weight: bold; font-size: 14px; margin-left: 50px; height: 30px; margin-top: 40px;">
+    MOTIVOS <span style="font-size: 11px;">(5 Principais)</span> 
+</div>
+
+@each(reason in extra_data.report_quantity.reasons)
+    @if($loop.index < 5)
+        <div style="width: 100%; font-size: 12px; margin-top: 50px; margin-left: 50px; height: 30px;">
+            <div style="float: left; width: 400px;; height: 30px;">{{ reason.name.toUpperCase() }}</div>
+            <div style="float: left; width: 200px;; height: 30px;">
+                <span style="margin-left: 30px;">{{ reason.qt }}</span>
+            </div>
+            <div style="float: left; width: 400px;; height: 30px;">
+                <span style="margin-left: 5px;">R$ {{ moneyFormat(reason.value) }} ( {{ reason.percent }} %)</span>
+            </div>
+        </div>
+    @endif
+@endeach
+
+</body>

@@ -1,0 +1,112 @@
+<meta charset="UTF-8">
+<style>
+
+  table {
+      border-collapse: collapse;
+      border: 0.1px solid #000;
+  }
+
+  table td {
+      border-collapse: collapse;
+      border-left: 0.1px solid #000;
+      border-right: 0.1px solid #000;
+  }
+
+  tr {
+      border-collapse: collapse;
+      border: 0.1px solid black;
+  }
+
+  th {
+      border-collapse: collapse;
+      border-left: 0.1px solid #000;
+      border-right: 0.1px solid #000;
+  }
+  table thead tr {
+      background-color: #CCCCCC;
+      font-size: 13px;
+  }
+
+  thead { display: table-header-group }
+
+  tfoot { display: table-row-group }
+
+  tr { page-break-inside: avoid }
+
+
+  .sub-header {
+      margin-top: 10px;
+  }
+
+</style>
+
+<body>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+  <div style="float: left; font-size: 10px; margin-left: 10px; width: 300px;">
+      <span>Impresso em: </span>
+      <span>{{ data.date_print }}</span>
+  </div>
+  @include('head')
+
+  <div style="width: 100%;">
+
+      <div style="width: 90%; margin-left: 40%; margin-top: 3%">
+          <span style="font-size: 15px; font-weight: bold">
+            TERMO DE ENTREGA DE CHAVES COM RESSALVAS
+          </span>
+      </div>
+
+  </div>
+
+</div>
+
+
+<div style="height: 20px; margin-top: 20px;">
+    <div style="width:80px; font-size: 12px; float: left">CONTRATO: </div>
+    <div style="font-weight: bold; font-size: 13px; float: left; width: 500px;">{{ data.contract }}</div>
+</div>
+
+<div style="height: 20px;">
+    <div style="width:80px; font-size: 12px; float: left">IMÓVEL: </div>
+    <div style="font-weight: bold; font-size: 12px;float: left; width: 500px;">
+        {{ data.address }} - MONTES CLAROS - MG
+    </div>
+</div>
+
+<div style="height: 20px;">
+    <div style="width:80px; font-size: 12px; float: left">LOCATÁRIO: </div>
+    <div style="font-weight: bold; font-size: 12px; float: left; width: 500px;">{{ data.tenant }}</div>
+</div>
+
+<div style="height: 20px;">
+    <div style="width:80px; font-size: 12px; float: left">LOCADOR: </div>
+    <div style="font-weight: bold; font-size: 12px; float: left; width: 500px;">{{ data.owner }}</div>
+</div>
+
+<div style="font-size: 12px; margin-top: 20px; text-align: justify">
+    {{ data.text }}
+</div>
+
+<div style="font-weight: bold; font-size: 12px; margin-top: 20px; margin-bottom: 10px; text-decoration: underline">
+    RELAÇÃO DE PENDÊNCIAS
+</div>
+
+<div style="font-size: 11px;">
+    {{{ data.pendencies }}}
+</div>
+
+
+<div style="font-size: 12px; margin-top: 30px;">
+    <span>Montes Claros, {{dateExtensive()}}</span>
+</div>
+
+<div style="font-size: 11px; margin-top: 40px;  width: 300px; text-align: left">
+    {{ data.tenant }}
+</div>
+
+
+
+
+</body>

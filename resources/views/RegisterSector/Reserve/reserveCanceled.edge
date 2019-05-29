@@ -1,0 +1,333 @@
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<style>
+    
+     table {
+        border-collapse: collapse;
+        border: 0.1px solid #000;
+    }
+
+    table td {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+
+    tr {
+        border-collapse: collapse;
+        border: 0.1px solid black;
+    }
+
+    th {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+    table thead tr {
+        font-size: 11px;
+    }
+
+    tr {
+        font-size: 9px;
+    }
+
+    .text-center {
+        text-align: center;
+        padding-left: 2px; !important;
+        padding-right: 2px; !important;
+    }
+
+    .text-left {
+        padding-left: 5px; !important;
+        text-align: left;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    sub-header > div {
+        height: 30px;
+        text-transform: uppercase;
+    }
+
+    tbody>tr>td {
+      text-transform: uppercase !important;
+    }
+    
+
+</style>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <div></div>
+            <span style="font-size: 15px; font-weight: bold">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">RELATÓRIO DE RESERVAS CANCELADAS ({{ data.length }})</p>
+                <p style="margin-top: 0px; padding-top: 0px; font-size: 11px;">PERÍODO: {{ extra_data.period }}</p>
+            </span>
+        </div>
+
+    </div>
+
+    <div style="font-size: 8px; position: absolute; top: 5px; left: 20px; text-align: left; width: 300px;">
+        Impresso em: {{ extra_data.date_print }}
+    </div>
+
+</div>
+
+
+<div>
+
+  <table>
+      <thead style="background-color: #E98531 !important;" class="page-break">
+      <tr style="border: none">
+          <th class="text-center" style="width: 70px;">COD.RESERVA</th>
+          <th class="text-left" style="width: 70px;">COD.CRM</th>
+          <th class="text-left" style="width: 70px;">COD.IMÓVEL</th>
+          <th class="text-center" style="width: 70px">RESERVA</th>
+          <th class="text-center" style="width: 70px;">VR. ANUNC</th>
+          <th class="text-center" style="width: 70px;">VR. NEG</th>
+          <th class="text-left" style="width: 300px;">CLIENTE</th>
+          <th class="text-left" style="width: 250px;">MOTIVO CANCELAMENTO</th>
+          <th class="text-left" style="width: 100px;">CADASTRO</th>
+          <th class="text-left" style="width: 100px;">RECEPÇÃO</th>
+          <th class="text-left" style="width: 80px;">CONCLUSÃO</th>
+          <th class="text-center" style="width: 80px;">TEMPO</th>
+      </tr>
+      </thead>
+      <tbody>
+      @each(list in data)
+          <tr>
+              <td class="text-center">{{ list.code_reserve }}/{{ list.year_reserve }}</td>
+              <td class="text-left">{{ !list.crm_code ? " - " : list.crm_code }}</td>
+              <td class="text-left">{{ list.immobile_code }}</td>
+              <td class="text-center">{{ dateFormat(list.date_reserve, "DD/MM/YYYY") }}</td>
+              <td class="text-center">
+                <div style="float: left">&nbsp;R$</div>
+                <div style="float:right">{{ moneyFormat(list.value) }} &nbsp;</div>
+              </td>
+              <td class="text-center">
+                <div style="float: left">&nbsp;R$</div>
+                <div style="float:right">{{ moneyFormat(list.value_negotiated) }} &nbsp;</div>
+              </td>
+              <td class="text-left">{{ list.client_name }}</td>
+              <td class="text-left">{{ !list.reasonCancelData ? " - " : list.reasonCancelData.reason }}</td>
+              <td class="text-left">{{ list.attendantRegisterData.name }}</td>
+              <td class="text-left">{{ list.attendantReceptionData.name }}</td>
+              <td class="text-center">{{ !list.conclusion ? ' - ' : dateFormat(list.conclusion, "DD/MM/YYYY") }}</td>
+              <td class="text-center">{{ diffDays(list.date_reserve, list.conclusion) }} d</td>
+          </tr>
+      @endeach
+      </tbody>
+  </table>
+
+  <div style="font-size: 12px;">
+    Tempo médio para cancelamento das reservas: <span style="font-weight: bold">{{ extra_data.median }}</span> dias
+  </div>
+
+</div>
+
+
+
+<!-- quantitativo -->
+
+<div class="page-break"></div>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="font-size: 8px; width: 300px; float: left; text-align: left; margin-top: 4px; left: 20px;">
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        Impresso em: {{ extra_data.date_print }}
+    </div>
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <span style="font-size: 15px; font-weight: bold">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">RELATÓRIO DE RESERVAS CANCELADAS</p>
+                <p style="margin-top: 0px; padding-top: 0px; font-size: 11px;">PERÍODO: {{ extra_data.period }}</p>
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<div style="font-size: 11px; margin-top: 30px; width: 700px; margin-left: 20px;">
+
+
+    <div style="width: 800px; height: 30px; margin-top: 50px;" class="sub-header">
+        <div style="width: 275px; float: left; font-weight: bold">TOTAL REALIZADO</div>
+        <div style="width: 30px; float: left">
+        <span style="padding-left: 30px;; font-weight: bold">QTD: </span>
+        </div>
+        <div style="width: 100px; float: left">
+            <span style="padding-left: 30px">{{ extra_data.report_quantity.total_qt }}</span>
+        </div>
+        <div style="width: 65px; float: left">
+            <span style="padding-left: 15px; font-weight: bold">VALOR </span>
+        </div>
+        <div style="width: 100px; float: left">
+            <div style="text-align: left; float: left; font-weight: bold">R$</div>
+            <div style="text-align: right; float: right; font-weight: bold">
+                {{ moneyFormat(extra_data.report_quantity.total_value) }}
+            </div>
+        </div>
+        <div style="width: 95px; float: left">
+            <div style="text-align: right"></div>
+        </div>
+    </div>
+
+
+
+    <div style="width: 700px; height: 40px;" class="sub-header">
+        <div style="width: 275px; float: left; text-decoration: underline">COMERCIAL</div>
+        <div style="width: 30px; float: left">
+            <span style="padding-left: 30px;; font-weight: bold">QTD: </span>
+        </div>
+        <div style="width: 100px; float: left">
+            <span style="padding-left: 30px;">{{ extra_data.report_quantity.total_qt_commercial }}</span>
+        </div>
+        <div style="width: 65px; float: left">
+            <span style="padding-left: 15px; font-weight: bold">VALOR </span>
+        </div>
+        <div style="width: 120px; float: left">
+            <div style="text-align: left; float: left">R$</div>
+            <div style="text-align: right; float: right;">{{ moneyFormat(extra_data.report_quantity.total_value_commercial) }} ({{ extra_data.report_quantity.total_percent_commercial }} %)</div>
+        </div>
+        <div style="width: 95px; float: left">
+            <div style="text-align: right">
+
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 700px; height: 80px" class="sub-header">
+        <div style="width: 275px; float: left; text-decoration: underline">RESIDENCIAL</div>
+        <div style="width: 30px; float: left">
+            <span style="padding-left: 30px;; font-weight: bold">QTD: </span>
+        </div>
+        <div style="width: 100px; float: left">
+            <span style="padding-left: 30px;">{{ extra_data.report_quantity.total_qt_residential }}</span>
+        </div>
+        <div style="width: 65px; float: left">
+            <span style="padding-left: 15px; font-weight: bold">VALOR </span>
+        </div>
+        <div style="width: 120px; float: left">
+            <div style="text-align: left; float: left">R$</div>
+            <div style="text-align: right; float: right;">{{ moneyFormat(extra_data.report_quantity.total_value_residential) }} ({{ extra_data.report_quantity.total_percent_residential }} %)</div>
+        </div>
+        <div style="width: 95px; float: left">
+            <div style="text-align: right">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Total por integrante -->
+    <div style="width: 800px; height: 20px;" class="sub-header">
+        <div style="width: 200px; float: left; font-weight: bold">TOTAL POR INTEGRANTE</div>
+        <div style="width: 200px; float: left">
+            &nbsp;
+        </div>
+        <div style="width: 70px; float: left">
+            <div style="text-align: left; float: left"> &nbsp;</div>
+            <div style="text-align: right; float: right;"> &nbsp;</div>
+        </div>
+        <div style="width: 145px; float: left">
+            <div style="text-align: right">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+
+    @each(per_user in extra_data.report_quantity_per_user)
+        <div style="width: 800px;">
+
+            <div style="width: 300px; float: left">{{ per_user.name.toUpperCase() }}</div>
+
+            <div style="width: 10px; float: left">
+                <span style="padding-left: 5px; font-weight: bold">QTD: </span>
+            </div>
+            <div style="width: 80px; float: left">
+                <span style="padding-left: 30px;">{{ per_user.total_qt }}</span>
+            </div>
+            <div style="width: 80px; float: left">
+                <span style="padding-left: 30px; font-weight: bold">VALOR: </span>
+            </div>
+            <div style="width: 120px; float: left">
+                <div style="text-align: left; float: left">R$</div>
+                <div style="text-align: right; float: right;">{{ moneyFormat(per_user.total_value) }} ({{ per_user.total_percent }} %)</div>
+            </div>
+            
+        </div>
+        <br />
+        <br />
+    @endeach
+      
+
+    <br />
+    <br />
+
+
+    <!-- Total por integrante -->
+    <div style="width: 800px; height: 20px;" class="sub-header">
+      <div style="width: 200px; float: left; font-weight: bold">MOTIVOS (5 PRINCIPAIS)</div>
+      <div style="width: 200px; float: left">
+          &nbsp;
+      </div>
+      <div style="width: 70px; float: left">
+          <div style="text-align: left; float: left"> &nbsp;</div>
+          <div style="text-align: right; float: right;"> &nbsp;</div>
+      </div>
+      <div style="width: 145px; float: left">
+          <div style="text-align: right">
+              &nbsp;
+          </div>
+      </div>
+  </div>
+
+  @each(reason in extra_data.reasons_cancel)
+
+      @if($loop.index < 5)
+      <div style="width: 800px;">
+
+          <div style="width: 300px; float: left">{{ reason.reason_name.toUpperCase() }}</div>
+
+          <div style="width: 10px; float: left">
+              <span style="padding-left: 5px; font-weight: bold">QTD: </span>
+          </div>
+          <div style="width: 80px; float: left">
+              <span style="padding-left: 30px;">{{ reason.qt_total }}</span>
+          </div>
+          <div style="width: 80px; float: left">
+              <span style="padding-left: 30px; font-weight: bold">VALOR: </span>
+          </div>
+          <div style="width: 120px; float: left">
+              <div style="text-align: left; float: left">R$</div>
+              <div style="text-align: right; float: right;">{{ moneyFormat(reason.value_total) }} ({{ reason.percent_total }} %)</div>
+          </div>
+          
+      </div>
+      @endif
+      <br />
+      <br />
+  @endeach
+    
+
+</div>
+
+
+</body>

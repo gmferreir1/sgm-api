@@ -1,0 +1,413 @@
+<meta charset="UTF-8">
+<style>
+
+  table {
+      border-collapse: collapse;
+      border: 0.1px solid #000;
+  }
+
+  table td {
+      border-collapse: collapse;
+      border-left: 0.1px solid #000;
+      border-right: 0.1px solid #000;
+  }
+
+  tr {
+      border-collapse: collapse;
+      border: 0.1px solid black;
+  }
+
+  th {
+      border-collapse: collapse;
+      border-left: 0.1px solid #000;
+      border-right: 0.1px solid #000;
+  }
+  table thead tr {
+      background-color: #CCCCCC;
+      font-size: 13px;
+  }
+
+  thead { display: table-header-group }
+
+  tfoot { display: table-row-group }
+
+  tr { page-break-inside: avoid }
+
+
+  .sub-header {
+      margin-top: 10px;
+  }
+
+</style>
+
+<body>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+  <div style="float: left; font-size: 10px; margin-left: 10px; width: 300px;">
+      <span>Impresso em: </span>
+      <span>{{ extra_data.date_print }}</span>
+  </div>
+  @include('head')
+
+  <div style="width: 100%;">
+
+      <div style="width: 90%; margin-left: 40%; margin-top: 3%">
+          <span style="font-size: 15px; font-weight: bold">
+              FICHA RESCISÃO DE CONTRATO DE LOCAÇÃO
+          </span>
+      </div>
+
+  </div>
+
+</div>
+
+<div class="sub-header" style="height: 20px; margin-top: 20px; font-size: 17px">
+
+  <div style="width: 220px; float: left;">
+  CONTRATO: <span style="font-size: 17px; font-weight: bold; text-transform: uppercase">{{ data.termination.contract }}</span>
+  </div>
+
+  <div style="width: 220px; float: left">
+      BAIXA: ____/____/______
+  </div>
+
+  <div style="width: 220px; float: left">
+      CAIXA: ______________
+  </div>
+
+  <div style="width: 220px; float: left">
+      ARQUIVO: _____________
+  </div>
+
+  <div style="width: 220px; float: left;">
+  RESP: <span style="font-size: 15px; font-weight: bold; text-transform: uppercase">{{ data.termination.responsibleTerminationData.name }}</span>
+  </div>
+
+</div>
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#000;"/>
+
+<!-- Endereço do imovel -->
+<div style="font-size: 17px; padding-top: 2px; height: 20px; width: 100%">
+    <div style="float: left; width: 100px;">ENDEREÇO: </div>
+    <div style="float: left; width: 800px; text-transform: uppercase">
+        &nbsp;&nbsp;
+        ( {{ data.termination.immobile_code }} )
+        {{ data.termination.address }},
+        {{ data.termination.neighborhood }},
+        <span style="margin-left: 10px;">MONTES CLAROS - MG</span>
+    </div>
+</div>
+<!-- // Endereço do imovel -->
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#000;"/>
+
+<!-- inquilino -->
+<div style="font-size: 17px; padding-top: 2px; height: 20px">
+    <div style="float: left; width: 100px;">LOCATÁRIO: </div>
+    <div style="float: left; width: 400px; text-transform: uppercase">&nbsp;&nbsp;{{ data.termination.tenant_name }}</div>
+    <div style="float: left">Fones: </div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.tenant_phone_01.length ? (data.termination.tenant_phone_01.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.tenant_phone_01) : setMask("(XX) XXXXX-XXXX", data.termination.tenant_phone_01)) : "" }}</div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.tenant_phone_02.length ? (data.termination.tenant_phone_02.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.tenant_phone_02) : setMask("(XX) XXXXX-XXXX", data.termination.tenant_phone_02)) : "" }}</div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.tenant_phone_03.length ? (data.termination.tenant_phone_03.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.tenant_phone_03) : setMask("(XX) XXXXX-XXXX", data.termination.tenant_phone_03)) : "" }}</div>
+
+</div>
+<!-- // inqulino -->
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#000;"/>
+
+<!-- locador -->
+<div style="font-size: 17px; padding-top: 2px; height: 20px;">
+    <div style="float: left; width: 100px;">LOCADOR: </div>
+    <div style="float: left; width: 400px; text-transform: uppercase">{{ data.termination.owner_name }}</div>
+    <div style="float: left">Fones: </div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.owner_phone_01.length ? (data.termination.owner_phone_01.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.owner_phone_01) : setMask("(XX) XXXXX-XXXX", data.termination.owner_phone_01)) : "" }}</div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.owner_phone_02.length ? (data.termination.owner_phone_02.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.owner_phone_02) : setMask("(XX) XXXXX-XXXX", data.termination.owner_phone_02)) : "" }}</div>
+    <div style="width: 150px; float: left; margin-left: 5px;"> {{ data.termination.owner_phone_03.length ? (data.termination.owner_phone_03.length === 10 ? setMask("(XX) XXXX-XXXX", data.termination.owner_phone_03) : setMask("(XX) XXXXX-XXXX", data.termination.owner_phone_03)) : "" }}</div>
+
+</div>
+<!-- // locador -->
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#000;"/>
+
+
+<div style="font-size: 17px; padding-top: 5px; height: 20px; margin-top: 10px;">
+    <div style="font-weight: bold">ALUGUÉIS DE ENCARGOS DA LOCAÇÃO</div>
+</div>
+
+<div style="font-size: 17px; padding-top: 5px; padding-bottom: 10px;">
+
+    <div style="width: 100%">
+        <span style="font-weight: bold">Multa Rescisoria:</span>
+        <span style="text-align: justify; font-size: 15px;">
+            {{{ nl2br(data.rent_accessory.fine_termination) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.fine_termination_value_debit) }}
+        </span>
+        @if(data.rent_accessory.fine_termination_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.fine_termination_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+</div>
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+<div style="font-size: 17px;">
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Condominio:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.condominium) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.condominium_value_debit) }}
+        </span>
+        @if(data.rent_accessory.condominium_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.condominium_value_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+        
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Copasa:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.copasa) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.copasa_value_debit) }}
+        </span>
+        @if(data.rent_accessory.copasa_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.copasa_value_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Cemig:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.cemig) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.cemig_value_debit) }}
+        </span>
+        @if(data.rent_accessory.cemig_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.cemig_value_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Iptu:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.iptu) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.iptu_value_debit) }}
+        </span>
+        @if(data.rent_accessory.iptu_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.iptu_value_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Taxa de Lixo:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.garbage_rate) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.garbage_rate_value_debit) }}
+        </span>
+        @if(data.rent_accessory.garbage_rate_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.garbage_rate_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Pendências:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.pendencies) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.pendencies_value_debit) }}
+        </span>
+        @if(data.rent_accessory.pendencies_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.pendencies_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Pintura:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.paint) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.paint_value_debit) }}
+        </span>
+        @if(data.rent_accessory.paint_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.paint_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+    <hr style="height:1px; width: 100%; border:none; color:#000; background-color:#48484c;"/>
+
+    <div style="width: 100%; padding-bottom: 25px;">
+        <span style="font-weight: bold">Alugueis:</span>
+        <span style="text-align: justify; font-size: 17px;">
+            {{{ nl2br(data.rent_accessory.value_rent) }}}
+        </span>
+        <span style="margin-left: 5px; font-weight: bold">
+            R$ {{ moneyFormat(data.rent_accessory.value_rent_value_debit) }}
+        </span>
+        @if(data.rent_accessory.value_rent_value_debit !== 0)
+            <span>
+                @if(data.rent_accessory.value_rent_type_debit === 'd')
+                    <span>(débito)</span>
+                @else
+                    <span>(crédito)</span>
+                @endif
+            </span>
+        @endif
+    </div>
+
+</div>
+
+<div style="margin-top: 20px; font-size: 17px; height: 40px; padding-bottom: 20px; width: 100%;">
+
+    <div style="font-weight: bold;">CHAVES E ACESSÓRIOS ENTREGUES - {{ dateFormat(data.termination.termination_date) }}</div>
+
+    <div style="margin-top: 10px; width: 100%;">
+
+        <div style="width: 150px; float: left">
+            Chaves:
+            <span style="font-weight: bold"> {{ !data.rent_accessory.keys_delivery ? "" : data.rent_accessory.keys_delivery }} </span>
+        </div>
+        <div style="width: 150px; float: left">
+            C/Portão:
+            <span style="font-weight: bold"> {{ !data.rent_accessory.control_gate ? "" : data.rent_accessory.control_gate }} </span>
+        </div>
+        <div style="width: 150px; float: left">
+            C/Alar/Cerca:
+            <span style="font-weight: bold"> {{ !data.rent_accessory.control_alarm ? "" : data.rent_accessory.control_alarm }} </span>
+        </div>
+        <div style="width: 150px; float: left">
+            CH.M.Portão:
+            <span style="font-weight: bold"> {{ !data.rent_accessory.key_manual_gate ? "" :  data.rent_accessory.key_manual_gate }} </span>
+        </div>
+        <div style="width: 130px; float: left">
+            Cart.Feira
+            <span style="font-weight: bold"> {{ !data.rent_accessory.fair_card ? "" : data.rent_accessory.fair_card }} </span>
+        </div>
+
+        <div style="width: 50px; float: left">
+            <span style="font-weight: bold; font-size: 15px;">|</span>
+        </div>
+
+        <div style="width: 120px; float: left; margin-left: 10px;">
+            Laudo Vist (&nbsp;&nbsp;&nbsp;&nbsp;)
+        </div>
+
+        <div style="width: 120px; float: left; margin-left: 10px;">
+            CT.Adm (&nbsp;&nbsp;&nbsp;&nbsp;)
+        </div>
+
+        <div style="width: 120px; float: left">
+            Fic.Desc (&nbsp;&nbsp;&nbsp;&nbsp;)
+        </div>
+
+    </div>
+
+</div>
+
+<hr style="height:1px; width: 100%; border:none; color:#000; background-color:#000;"/>
+
+<div style="margin-top: 10px; font-size: 17px; width: 100%">
+
+    <div style="height: 30px; width: 100%">
+        <div style="width: 150px; float: left">
+            <span style="font-weight: bold">Novo Endereço:</span>
+        </div>
+
+        <div style="width: 950px; float: left;">
+            @if(data.rent_accessory.new_address && data.rent_accessory.new_neighborhood)
+                <span>
+
+                    <span style="text-transform: uppercase"> {{ data.rent_accessory.new_address }} </span>
+                    <span style="text-transform: uppercase"> {{ data.rent_accessory.new_neighborhood }} </span>
+                    <span> - </span>
+                    <span style="text-transform: uppercase"> {{ data.rent_accessory.new_city }} </span>
+                    <span> - </span>
+                    <span style="text-transform: uppercase"> {{ data.rent_accessory.new_state }} </span>
+
+                </span>
+            @else
+                <span>Nenhum endereço informado</span>
+            @endif
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>

@@ -1,0 +1,138 @@
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<style>
+    
+     table {
+        border-collapse: collapse;
+        border: 0.1px solid #000;
+    }
+
+    table td {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+
+    tr {
+        border-collapse: collapse;
+        border: 0.1px solid black;
+    }
+
+    th {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+    table thead tr {
+        font-size: 11px;
+    }
+
+    tr {
+        font-size: 9px;
+    }
+
+    .text-center {
+        text-align: center;
+        padding-left: 2px; !important;
+        padding-right: 2px; !important;
+    }
+
+    .text-left {
+        padding-left: 5px; !important;
+        text-align: left;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    sub-header > div {
+        height: 30px;
+        text-transform: uppercase;
+    }
+
+    tbody>tr>td {
+      text-transform: uppercase !important;
+    }
+    
+
+</style>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <div></div>
+            <span style="font-size: 15px; font-weight: bold">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">RELATÓRIO DE RESERVAS NO SISTEMA ({{ data.length }})</p>
+                <p style="margin-top: 0px; padding-top: 0px; font-size: 11px;">PERÍODO: {{ extra_data.period }}</p>
+            </span>
+        </div>
+
+    </div>
+
+    <div style="font-size: 8px; position: absolute; top: 5px; left: 20px; text-align: left; width: 300px;">
+        Impresso em: {{ extra_data.date_print }}
+    </div>
+
+</div>
+
+
+<div>
+
+  <table>
+      <thead style="background-color: #E98531 !important;" class="page-break">
+      <tr style="border: none">
+        <th class="text-center" style="width: 80px">RESERVA</th>
+          <th class="text-left" style="width: 80px;">COD.IMÓVEL</th>
+          <th class="text-left" style="width: 80px;">CONTRATO</th>
+          <th class="text-center" style="width: 70px;">RESERVA</th>
+          <th class="text-center" style="width: 70px;">VR. ANUNC</th>
+          <th class="text-center" style="width: 70px;">VR. NEG</th>
+          <th class="text-left" style="width: 350px;">CLIENTE</th>
+          <th class="text-center" style="width: 80px;">PREVISÃO</th>
+          <th class="text-left" style="width: 80px;">STATUS</th>
+          <th class="text-left" style="width: 100px;">CADASTRO</th>
+          <th class="text-left" style="width: 100px;">RECEPÇÃO</th>
+          <th class="text-center" style="width: 80px;">CONCLUSÃO</th>
+          <th class="text-center" style="width: 80px;">TMP</th>
+      </tr>
+      </thead>
+      <tbody>
+      @each(list in data)
+          <tr>
+          <td class="text-center" style="text-transform: uppercase">{{ list.code_reserve }}/{{ list.year_reserve }}</td>
+              <td class="text-left" style="text-transform: uppercase">{{ list.immobile_code }}</td>
+              <td class="text-left">{{ !list.contract ? " - " : list.contract }}</td>
+              <td class="text-center">{{ dateFormat(list.date_reserve, "DD/MM/YYYY") }}</td>
+              <td class="text-center" style="text-transform: uppercase">
+                <div style="float: left">&nbsp;R$</div>
+                <div style="float:right">{{ moneyFormat(list.value) }} &nbsp;</div>
+              </td>
+              <td class="text-center" style="text-transform: uppercase">
+                <div style="float: left">&nbsp;R$</div>
+                <div style="float:right">{{ moneyFormat(list.value_negotiated) }} &nbsp;</div>
+              </td>
+              <td class="text-left">{{ list.client_name }}</td>
+              <td class="text-center">{{ dateFormat(list.prevision, "DD/MM/YYYY") }}</td>
+              <td class="text-left">{{ getStatusReserve(list.status) }}</td>
+              <td class="text-left">{{ list.attendantRegisterData.name }}</td>
+              <td class="text-left">{{ list.attendantReceptionData.name }}</td>
+              <td class="text-center">{{ !list.conclusion ? ' - ' : dateFormat(list.conclusion, "DD/MM/YYYY") }}</td>
+              <td class="text-center">{{ diffDays(list.date_reserve, list.conclusion) }} d</td>
+          </tr>
+      @endeach
+      </tbody>
+  </table>
+
+
+</div>
+
+
+</body>

@@ -1,0 +1,313 @@
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+
+<style>
+
+     .label {
+        font-weight: bold;
+    }
+
+    .border {
+        border: 1px solid black;
+    }
+
+    .sub-border {
+        border-top: none;
+        border-left: none;
+        border-bottom: none;
+    }
+
+    .text {
+        margin-left: 5px;
+        padding-top: 0px;
+        margin-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+</style>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 70%; margin-left: 12%; margin-top: 4%">
+            <span style="font-size: 15px; font-weight: bold">
+                PROPOSTA LOCAÇÃO DE IMÓVEL RESIDENCIAL Nº SIGEM {{ data.code_reserve + '/' + data.year_reserve }} - CRM {{ !data.crm_code ? "_________" : data.crm_code }}
+            </span>
+        </div>
+
+    </div>
+
+    <div style="font-size: 6px !important; position: absolute; top: 3px; left: 20px; text-align: left; width: 300px;">Impresso em: {{extra_data.date_print}} </div>
+
+</div>
+
+
+<div>
+
+<div style="margin-top: 25px">
+    <span>
+        <span class="label">IMOVEL:</span>
+        <span>{{data.immobile_code.toUpperCase()}} {{data.address.toUpperCase()}} {{data.neighborhood.toUpperCase()}}</span>
+    </span>
+</div>
+
+<div style="margin-top: 20px; font-weight: bold">
+    PROPONENTE / INFORMAÇÕES COMPLEMENTARES
+</div>
+
+<div class="border" style="height: 43px; margin-top: 5px">
+    <div style="width: 70%; float: left; height: 100%" class="border sub-border">
+        <p class="text">Nome</p>
+        <p class="text">{{data.client_name.toUpperCase()}}</p>
+    </div>
+
+    <div style="width: 20%; height: 100%; float: left;">
+        <p class="text">CPF</p>
+        <p class="text">{{data.client_cpf ? setMask("XXX.XXX.XXX-XX", data.client_cpf) : "" }}</p>
+    </div>
+</div>
+
+
+
+<div class="border" style="height: 45px; border-top: none">
+
+    <div style="width: 20%; float: left; height: 45px" class="border sub-border">
+        <p class="text">RG</p>
+        <p class="text">{{!data.client_rg ? ' ' : data.client_rg.toUpperCase()}}</p>
+    </div>
+
+    <div style="width: 35%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Profissão</p>
+        <p class="text">{{!data.client_profession ? ' ' : data.client_profession.toUpperCase()}}</p>
+    </div>
+
+    <div style="width: 40%; float: left; border-right: none" class="border sub-border">
+        <p class="text">Empresa</p>
+        <p class="text">{{!data.client_company ? ' ' : data.client_company.toUpperCase()}}</p>
+    </div>
+
+</div>
+
+<div class="border" style="height: 45px; border-top: none">
+
+    <div style="width: 20%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Fone 01</p>
+        <p class="text">{{data.client_phone_01}}</p>
+    </div>
+
+    <div style="width: 20%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Fone 02</p>
+        <p class="text">{{data.client_phone_02}}</p>
+    </div>
+
+    <div style="width: 20%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Fone 03</p>
+        <p class="text">{{data.client_phone_03}}</p>
+    </div>
+
+    <div style="width: 30%; float: left; border-right: none" class="border sub-border">
+        <p class="text">Email</p>
+        <p class="text">{{data.client_email}}</p>
+    </div>
+
+</div>
+
+<div class="border" style="height: 45px; border-top: none">
+
+    <div style="width: 65%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Endereço</p>
+        <p class="text">
+            {{ !data.client_address ? '' : data.client_address.toUpperCase() }}
+            {{ !data.client_neighborhood ? '' : ', ' + data.client_neighborhood.toUpperCase() }}
+        </p>
+    </div>
+
+    <div style="width: 30%; float: left; border-right: none" class="border sub-border">
+        <p class="text">Cidade</p>
+        <p class="text">{{!data.client_city ? '' : data.client_city.toUpperCase()}}</p>
+    </div>
+
+</div>
+
+<div class="border" style="height: 45px; border-top: none">
+
+    <div style="width: 17%; float: left; height: 45px" class="border sub-border">
+        <p class="text">Paga aluguel ?</p>
+        <p class="text">
+            <span>( &nbsp; &nbsp; ) SIM</span>
+            <span>( &nbsp; &nbsp; ) NÂO</span>
+        </p>
+    </div>
+
+    <div style="width: 15%; float: left; height: 45px" class="border sub-border">
+      <p class="text">Valor R$</p>
+      <p class="text">&nbsp;</p>
+    </div>
+
+    <div style="width: 60%; float: left; height: 45px; border-right:none " class="border sub-border">
+        <p class="text">Para quem ? / Fone</p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+</div>
+
+<div class="border" style="height: 45px; border-top: none">
+
+    <div style="width: 99%; float: left; height: 30px; border-right: none" class="border sub-border">
+        <p class="text">Porque está alugando este imóvel? &nbsp;
+          <span>( &nbsp; &nbsp; ) Estudante &nbsp;</span>
+          <span>( &nbsp; &nbsp; ) Veio para Montes Claros a trabalho &nbsp;</span>
+          <span>( &nbsp; &nbsp; ) Outros</span>
+        </p>
+    </div>
+
+</div>
+
+<div style="margin-top: 10px; font-weight: bold">
+    DADOS PARA CELEBRAÇÃO DO CONTRATO
+</div>
+
+<div class="border" style="height: 45px; margin-top: 10px">
+
+    <div style="width: 20%; height: 100%; float: left;" class="border sub-border">
+        <p class="text">Possui Animais ?</p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+    <div style="width: 30%; height: 100%; float: left;" class="border sub-border">
+        <p class="text">Prazo Contrato / Meses: </p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+    <div style="width: 20%; height: 100%; float: left;" class="border sub-border">
+        <p class="text">Dia Pagamento: </p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+    <div style="width: 20%; float: left; border-right: none" class="border sub-border">
+        <p class="text">Valor R$</p>
+        <p class="text">R$ {{ moneyFormat(data.value_negotiated) }}</p>
+    </div>
+
+</div>
+
+<div class="border" style="height: 140px; margin-top: 10px; padding-left: 5px; padding-top: 10px">
+
+    <div style="width: 95%; float: left;">
+        <span>Forma Pagamento Aluguel: </span>
+        <span style="margin-left: 10px">(&nbsp; &nbsp;) Na Administradora</span>
+        <span style="margin-left: 10px; margin-right: 10px"> - </span>
+        <span>(&nbsp; &nbsp;) Boleto Bancário - Tarifa por Conta do Locatário</span>
+    </div>
+
+    <div style="width: 95%; float: left; margin-top: 15px">
+        <span>Garantia: </span>
+        <span style="margin-left: 10px">(&nbsp; &nbsp;) Fiadores</span>
+        <span style="margin-left: 10px; margin-right: 10px"> - </span>
+        <span>(&nbsp; &nbsp;) Seguro Fiança</span>
+        <span style="margin-left: 10px; margin-right: 10px"> - </span>
+        <span>(&nbsp; &nbsp;) Título de Capitalização ________ meses</span>
+    </div>
+
+    <div style="width: 95%; float: left; margin-top: 15px">
+        <span>Cláusula pintura pintor indicado pelo Proprietário</span>
+    </div>
+    
+    <div style="width: 95%; float: left; margin-top: 15px">
+        <span>Seguro contra Incêndio:  Gerar recibo para pagamento</span>
+    </div>
+
+</div>
+
+
+<div style="margin-top: 10px; font-weight: bold">
+    OBSERVAÇÕES IMPORTANTES
+</div>
+
+<div class="border" style="height: 285px; margin-top: 10px; padding-left: 5px; text-align: justify">
+
+    <div style="width: 95%; float: left; margin-top: 5px">
+        a) - <span style="font-weight: bold"> Nos casos de locação de imóveis que façam parte de condomínios, caberá exclusivamente ao pretendente à
+        Locação, antes da celebração do Contrato, consultar o Síndico / administrador do condomínio sobre os dias e
+        horários permitidos para mudança, bem como se informar sobre as normas/convenção do condomínio,
+        especialmente no que diz respeito a criação de animais. </span>
+    </div>
+
+    <div style="width: 95%; float: left; margin-top: 5px">
+        b) - São encargos da locação, dentre outros: IPTU, Taxa de Lixo, Despesas ordinárias de Condomínio, Seguro contra Incêndio.
+    </div>
+    
+    <div style="width: 95%; float: left; margin-top: 5px">
+        c) - As fichas cadastrais e documentos exigidos deverão ser apresentados até <span style="font-weight: bold">05 dias úteis</span>, contados desta
+        data, ficando reservado à Master RSM Imóveis o direito de exigir documentos complementares, de acordo com a
+        análise do cadastro.
+    </div>
+
+    <div style="width: 95%; float: left; margin-top: 5px">
+        d) - A não apresentação dos documentos, dentro deste período, libera o imóvel, automaticamente, para os outros interessados.
+    </div>
+
+    <div style="width: 95%; float: left; margin-top: 5px">
+        e) - O simples preenchimento desta proposta não implica no reconhecimento de qualquer direito à locação.
+        Somente após a aprovação do cadastro é que haverá uma promessa de locação por parte do proprietário do imóvel.
+    </div>
+</div>
+
+<div style="margin-top: 10px">
+<span>Montes Claros, {{ extra_data.date_extense }}</span>
+    <span style="font-weight: bold"> &nbsp;   Ass. ______________________________________________________</span>
+</div>
+
+<div class="border" style="height: 50px; margin-top: 15px; padding-left: 5px">
+
+    <div style="width: 15%; float: left; margin-top: 10px">
+        <span class="font-bold" style="font-size: 12px;">Consultora Aluguel:</span>
+    </div>
+
+    <div style="width: 30%; float: left; margin-top: 10px">
+        <span style="font-size: 12px;"> {{ data.attendantReceptionData.name.toUpperCase() + ' ' + data.attendantReceptionData.last_name.toUpperCase() }}</span>
+    </div>
+
+    <div style="width: 15%; float: left; margin-top: 10px">
+        <span class="font-bold" style="font-size: 12px;">Consultora Cadastro:</span>
+    </div>
+
+    <div style="width: 30%; float: left; margin-top: 10px">
+        <span style="font-size: 12px;"> &nbsp; {{ data.attendantRegisterData.name.toUpperCase() + ' ' + data.attendantRegisterData.last_name.toUpperCase() }}</span>
+    </div>
+
+</div>
+
+<div class="border" style="height: 80px; margin-top: 20px">
+
+    <div style="width: 70%; float: left; height: 80px;" class="border sub-border">
+        <p class="text font-bold">OBSERVAÇÃO</p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+    <div style="width: 20%; float: left; border-right: none; height: 80px" class="border sub-border">
+        <p class="text font-bold">COD. CONTRATO:</p>
+        <p class="text">&nbsp;</p>
+
+        <p class="text font-bold">NEG. CRM:</p>
+        <p class="text">&nbsp;</p>
+    </div>
+
+</div>
+
+</div>
+
+
+
+</body>

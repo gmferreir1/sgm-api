@@ -1,0 +1,341 @@
+<meta charset="UTF-8">
+<style>
+    table {
+        border-collapse: collapse;
+        border: 0.1px solid #000;
+    }
+
+    table td {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+
+    tr {
+        border-collapse: collapse;
+        border: 0.1px solid black;
+    }
+
+    th {
+        border-collapse: collapse;
+        border-left: 0.1px solid #000;
+        border-right: 0.1px solid #000;
+    }
+
+    table thead tr {
+        background-color: #CCCCCC;
+        font-size: 13px;
+    }
+
+    thead { display: table-header-group }
+
+    tfoot { display: table-row-group }
+
+    tr { page-break-inside: avoid }
+
+    tr {
+        font-size: 11px;
+    }
+
+    .text-center {
+        text-align: center;
+        padding-left: 2px; !important;
+        padding-right: 2px; !important;
+    }
+
+    .text-left {
+        padding-left: 5px; !important;
+        text-align: left;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+
+    tbody>tr>td {
+      text-transform: uppercase !important;
+    }
+
+</style>
+
+<body>
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+    
+    <div style="float: left; font-size: 10px; margin-left: 10px; width: 300px;">
+        <span>Impresso em: </span>
+        <span>{{ extra_data.date_print }}</span>
+    </div>
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">RELATÓRIO DE CONTRATOS INATIVADOS({{ data.length }})</p>
+            <p style="margin-top: 0px; padding-top: 0px; font-size: 11px; text-transform: uppercase; margin-bottom: 0px">PERÍODO: {{ extra_data.period }}</p>
+            <p style="margin-top: 0px; padding-top: 0px; font-size: 11px; text-transform: uppercase">RESPONSÁVEL: {{ extra_data.responsible }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+        <tr style="font-size: 10px; background-color: #E98531">
+            <th class="text-left" style="width: 75px">CONTRATO</th>
+            <th class="text-center" style="width: 40px;">TP</th>
+            <th class="text-left" style="width: 300px;">ENDEREÇO</th>
+            @if(extra_data.type_report === "owner_name")
+            <th class="text-left" style="width: 250px;">LOCADOR</th>
+            @else
+            <th class="text-left" style="width: 250px;">LOCATÁRIO</th>
+            @endif
+            <th class="text-center" style="width: 75px;">1ºCONT.</th>
+            <th class="text-center" style="width: 75px;">RESCISÃO</th>
+            <th class="text-center" style="width: 50px;">TEMPO</th>
+            <th class="text-left" style="width: 220px;">MOTIVO</th>
+            <th class="text-left" style="width: 150px;">DESTINO</th>
+            <th class="text-center" style="width: 80px;">ALUGUEL</th>
+        </tr>
+        </thead>
+        <tbody>
+            @each(list in data)
+            <tr>
+                <td class="text-left">{{ list.contract }}</td>
+                <td class="text-center">{{ list.type_register === "termination" ? "R" : "T" }}</td>
+                <td class="text-left">{{ list.address }} {{ list.neighborhood }}</td>
+                @if(extra_data.type_report === "owner_name")
+                <td class="text-left">{{ list.owner_name }}</td>
+                @else
+                <td class="text-left">{{ list.tenant_name }}</td>
+                @endif
+                <td class="text-center">{{ dateFormat(list.date_primary_contract, "DD/MM/YYYY") }}</td>
+                <td class="text-center">{{ dateFormat(list.termination_date, "DD/MM/YYYY") }}</td>
+                <td class="text-center" style="text-transform: lowercase !important">
+                    {{ list.time_duration_contract[0] }}a, {{ list.time_duration_contract[1] }}m
+                </td>
+                <td class="text-left">{{ list.reasonTerminationData.reason }}</td>
+                <td class="text-left">{{ !list.destinationTerminationData.reason ? " - " : list.destinationTerminationData.reason }}</td>
+                <td>
+                    <div style="float: left; margin-left: 1px;">R$</div>
+                    <div style="float: right; margin-right: 1px;">{{ moneyFormat(list.value) }}</div>
+                </td>
+            </tr>
+            @endeach
+        </tbody>
+    </table>
+
+    <div style="margin-top: 10px; font-size: 11px;">
+        Média tempo dos contratos: 
+            <span style="font-weight: bold">{{ extra_data.time_duration[0] }} {{ extra_data.time_duration[1] }} 
+                @if(extra_data.time_duration[2])
+                    <span>e {{ extra_data.time_duration[2] }}</span>
+                @endif
+            </span>
+    </div>
+
+</div>
+
+
+<div class="page-break"></div>
+
+
+<div style="border: 1px solid black; height: 90px; margin-bottom: 3px;">
+
+    <div style="float: left; font-size: 10px; margin-left: 10px; width: 300px;">
+        <span>Impresso em: </span>
+        <span>{{ extra_data.date_print }}</span>
+    </div>
+
+    @include('head')
+
+    <div style="width: 100%;">
+
+        <div style="width: 50%; margin-left: 38%; margin-top: 2%">
+            <p style="font-size: 13px; font-weight: bold; margin-bottom: 0px; padding-bottom: 0px">RELATÓRIO DE CONTRATOS INATIVADOS</p>
+            <p style="margin-top: 0px; padding-top: 0px; font-size: 11px; text-transform: uppercase; margin-bottom: 0px">PERÍODO: {{ extra_data.period }}</p>
+            <p style="margin-top: 0px; padding-top: 0px; font-size: 11px; text-transform: uppercase">RESPONSÁVEL: {{ extra_data.responsible }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div style="font-size: 11px; margin-top: 30px; width: 700px; margin-left: 20px;">
+
+    <!-- total -->
+    <div style="width: 700px; height: 20px;">
+        <div style="width: 50px; float: left; font-weight: bold">TOTAL</div>
+        <div style="width: 50px; float: left; font-weight: bold"> {{ report_qt.total.total_qt }} </div>
+        <div style="width: 150px; float: left; font-weight: bold;">
+            CONTRATOS
+        </div>
+        <div style="width: 400px; float: left; font-weight: bold">
+            <div style="float: left; width: 50px">R$</div>
+            <div style="float: left; width: 350px">
+                {{ moneyFormat(report_qt.total.total_value) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- residencial -->
+    <div style="width: 700px; height: 20px;">
+        <div style="width: 50px; float: left; margin-left: 50px;">
+            {{ report_qt.total.residential.total_qt }}
+        </div>
+        <div style="width: 150px; float: left">RESIDENCIAIS</div>
+        <div style="width: 400px; float: left">
+            <div style="float: left; width: 50px">R$</div>
+            <div style="float: right; width: 350px;">{{ moneyFormat(report_qt.total.residential.total_value) }}
+
+                @if(report_qt.total.residential.percent === 0)
+                    (000 %)
+                @else
+                ({{ report_qt.total.residential.percent }} %)
+                @endif
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- comercial -->
+    <div style="width: 700px">
+        <div style="width: 50px; float: left; margin-left: 50px;">
+                {{ report_qt.total.commercial.total_qt }}
+        </div>
+        <div style="width: 150px; float: left">NÃO RESIDENCIAIS</div>
+        <div style="width: 400px; float: left">
+            <div style="float: left; width: 50px;">R$</div>
+            <div style="float: right; width: 350px;">{{ moneyFormat(report_qt.total.commercial.total_value) }}
+
+                @if(report_qt.total.commercial.percent === 0)
+                    (000 %)
+                @else
+                    ({{ report_qt.total.commercial.percent }} %)
+                @endif
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- DESTINOS -->
+<div style="font-size: 11px;; margin-top: 100px; margin-left: 20px;">
+
+    <div style="font-size: 12px; font-weight: bold;">
+        DESTINOS ( 5 Principais )
+    </div>
+
+    <div style="width: 700px; font-size: 12px; font-weight: bold; height: 20px;">
+        <div style="float: left; width: 50px;">{{ report_qt.destination.total.total_qt }}</div>
+        <div style="float: left; width: 400px;">ALUGARAM NOVAMENTE</div>
+        <div style="float: left; width: 250px;">R$ {{ moneyFormat(report_qt.destination.total.total_value) }} (100%)</div>
+    </div>
+
+    @each(destination in report_qt.destination.detail)
+        @if($loop.index < 5)
+            <div style="width: 850px; height: 20px;">
+                <div style="float: left; width: 50px;">{{ destination.total_qt }}</div>
+                <div style="float: left; width: 400px;">{{ destination.name.toUpperCase() }}</div>
+
+                <div style="width: 400px; float: left; font-size: 12px">
+
+                    @if(destination.percent === 0)
+                    (000 %)
+                    @else
+                        <div style="float: left; width: 20px">R$</div>
+                        <div style="float: left; width: 350px">
+                            {{ moneyFormat(destination.total_value) }}
+                            ({{ destination.percent }} %)
+                        </div>
+                    @endif
+                   
+                </div>
+
+            </div>
+        @endif
+    @endeach
+
+</div>
+<!-- MOTIVOS -->
+<div style="font-size: 11px;; margin-top: 50px; margin-left: 20px;">
+
+    <div style="font-size: 12px; font-weight: bold;">
+        MOTIVOS ( 5 Principais )
+    </div>
+
+    <div style="width: 700px; font-size: 12px; font-weight: bold; height: 20px;">
+        <div style="float: left; width: 50px;">{{ report_qt.reason.total.total_qt }}</div>
+        <div style="float: left; width: 400px;">ALUGARAM NOVAMENTE</div>
+        <div style="float: left; width: 250px;">R$ {{ moneyFormat(report_qt.reason.total.total_value) }} (100%)</div>
+    </div>
+
+    @each(reason in report_qt.reason.detail)
+        @if($loop.index < 5)
+            <div style="width: 850px; height: 20px;">
+                <div style="float: left; width: 50px;">{{ reason.total_qt }}</div>
+                <div style="float: left; width: 400px;">{{ reason.name.toUpperCase() }}</div>
+
+                <div style="width: 400px; float: left; font-size: 12px">
+
+                    @if(reason.percent === 0)
+                    (000 %)
+                    @else
+                        <div style="float: left; width: 20px">R$</div>
+                        <div style="float: left; width: 350px">
+                            {{ moneyFormat(reason.total_value) }}
+                            ({{ reason.percent }} %)
+                        </div>
+                    @endif
+                    
+                </div>
+
+            </div>
+        @endif
+    @endeach
+
+</div>
+
+
+<!-- VISTORIAS -->
+<div style="font-size: 11px;; margin-top: 50px; margin-left: 20px;">
+
+
+    <div style="width: 700px; font-size: 12px; font-weight: bold; height: 20px;">
+        <div style="float: left; width: 50px;">{{ report_qt.survey.total_qt }}</div>
+        <div style="float: left; width: 400px;">VISTORIAS</div>
+        <div style="float: left; width: 250px;">%</div>
+    </div>
+
+    @each(survey in report_qt.survey.per_surveyor)
+        <div style="width: 850px; height: 20px;">
+            <div style="float: left; width: 50px;">{{ survey.total_qt }}</div>
+            <div style="float: left; width: 400px;">{{ survey.name.toUpperCase() }}</div>
+
+            <div style="float: left; width: 250px;">
+                @if(survey.percent === 0)
+                    (000 %)
+                @else
+                    ({{ survey.percent }} %)
+                @endif
+            </div>
+
+        </div>
+        <!-- Ressalvas -->
+        <div style="width: 700px; height: 25px;">
+            <div style="float: left; width: 50px;">{{ survey.caveat }}</div>
+            <div style="float: left; width: 200px;">COM RESSALVAS</div>
+        </div>
+    @endeach
+    
+</div>
+
+
+
+
+</body>
