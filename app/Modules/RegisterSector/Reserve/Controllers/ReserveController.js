@@ -43,6 +43,10 @@ const SystemActionModel = use(
   `${Env.get("ADMIN_MODULE")}/SystemAction/Models/SystemAction`
 );
 
+const FluxAttendanceService = use(
+  `${Env.get("ADMIN_MODULE")}/FluxAttendance/Services/FluxAttendanceService`
+);
+
 class ReserveController {
   constructor() {
     this.validadeService = new ValidadeService();
@@ -82,7 +86,17 @@ class ReserveController {
         userId,
         created.id
       );
-      await SystemActionModel.create(actionMessage);
+      await SystemActionModel.create(actionMessage, trx);
+
+      /** Grava um novo fluxo de atendimento */
+      const flux = FluxAttendanceService.addScore(
+        "register_reserve",
+        requestData.attendant_register,
+        auth
+      );
+      if (!flux) {
+        throw new Error("error add flux attendance");
+      }
 
       trx.commit();
       return created.id;
@@ -302,10 +316,13 @@ class ReserveController {
         this.orWhere("immobile_code", "like", "%" + filter.input + "%");
         this.orWhere("contract", "like", "%" + filter.input + "%");
       });
-    
-    const totalData =  await query.fetch();
-    const results = await query.paginate(page, !filter.per_page ? 100 : filter.per_page);
-   
+
+    const totalData = await query.fetch();
+    const results = await query.paginate(
+      page,
+      !filter.per_page ? 100 : filter.per_page
+    );
+
     return {
       list: results,
       quantity: await ReserveService.quantityReserves(totalData.toJSON())

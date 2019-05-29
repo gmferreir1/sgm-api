@@ -17,6 +17,10 @@ const ReasonModel = use(`${Env.get("ADMIN_MODULE")}/Reason/Models/Reason`);
 
 const UserModel = use(`${Env.get("ADMIN_MODULE")}/User/Models/User`);
 
+const FluxAttendance = use(
+  `${Env.get("ADMIN_MODULE")}/FluxAttendance/Models/FluxAttendance`
+);
+
 const ImoviewAPIDataService = use(
   `${Env.get("API_EXTERNAL_MODULE")}/Services/ImoviewAPIDataService`
 );
@@ -172,6 +176,19 @@ class QueryController {
       .sortBy("year_reserve")
       .pluck("year_reserve")
       .all();
+  }
+
+  /**
+   * Retorna o score do modulo
+   */
+  async getModuleScore() {
+    return await FluxAttendance.query()
+      .where({ module_name: "register_reserve" })
+      .with("userData", builder => {
+        builder.setVisible(["name", "last_name"])
+      })
+      .orderBy("score", "asc")
+      .fetch();
   }
 }
 

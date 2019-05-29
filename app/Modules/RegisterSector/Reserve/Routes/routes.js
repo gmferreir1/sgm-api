@@ -11,6 +11,7 @@ Route.group(() => {
   Route.get("reasons-cancel", `${MODULE_PATH}/Reserve/Controllers/QueryController.getReasonsCancel`);
   Route.get("attendants-for-filter", `${MODULE_PATH}/Reserve/Controllers/QueryController.getAttendandtsForFilter`);
   Route.get("get-years-available-to-report", `${MODULE_PATH}/Reserve/Controllers/QueryController.getYearsAvailableToReport`);
+  Route.get("score", `${MODULE_PATH}/Reserve/Controllers/QueryController.getModuleScore`);
 })
   .prefix("register-sector/reserve/query")
   .middleware("auth");
