@@ -163,6 +163,7 @@ class ReserveController {
           requestData.finality = requestData.contract_data.finality;
           requestData.date_init_contract = contractData.delivery_key;
           requestData.end_process = moment().format("YYYY-MM-DD");
+          requestData.conclusion = contractData.delivery_key;
         }
       }
 
