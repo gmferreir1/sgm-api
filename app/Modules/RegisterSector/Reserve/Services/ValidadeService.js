@@ -114,8 +114,9 @@ class ValidadeService {
     if (data.status === "as") {
       /** verifica os dados do contrato */
       const checkFieldsContractCelebrated = ContractCelebratedService.checkContractCelebratedFields(
-        data
+        data.contract_data
       );
+
       if (!checkFieldsContractCelebrated) {
         return {
           error: true,
@@ -126,9 +127,10 @@ class ValidadeService {
 
       /** verifica se o contrato ja esta cadastrado */
       const checkContract = await ReserveModel.query()
-        .where({ contract: data.contract })
+        .where({ contract: data.contract_data.contract })
         .whereNotIn("status", ["c"])
         .first();
+      
       if (checkContract) {
         return {
           error: true,

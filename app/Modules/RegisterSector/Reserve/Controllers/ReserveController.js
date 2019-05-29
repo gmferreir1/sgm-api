@@ -101,7 +101,6 @@ class ReserveController {
       trx.commit();
       return created.id;
     } catch (error) {
-      console.log(error);
       trx.rollback();
       Logger.create(error);
       return response.dispatch(500, "check system log");
@@ -206,7 +205,6 @@ class ReserveController {
       trx.commit();
       return response.dispatch(200, "success");
     } catch (error) {
-      console.log(error);
       Logger.create(error);
       return response.dispatch(500, "error: check system log");
     }

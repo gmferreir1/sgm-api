@@ -76,6 +76,7 @@ class ContractCelebratedService {
    * @param {*} data
    */
   static checkContractCelebratedFields(data) {
+    
     if (
       !data.contract ||
       !data.taxa ||
