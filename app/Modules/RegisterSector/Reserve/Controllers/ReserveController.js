@@ -165,6 +165,8 @@ class ReserveController {
           requestData.end_process = moment().format("YYYY-MM-DD");
           requestData.conclusion = contractData.delivery_key;
         }
+      } else {
+        requestData.conclusion = null;
       }
 
       /** remove os dados de contrato */
@@ -206,6 +208,7 @@ class ReserveController {
       trx.commit();
       return response.dispatch(200, "success");
     } catch (error) {
+      trx.rollback();
       Logger.create(error);
       return response.dispatch(500, "error: check system log");
     }
