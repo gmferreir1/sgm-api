@@ -1,7 +1,10 @@
 "use strict";
 
 const Env = use("Env");
+const fs = require("fs");
+const Helpers = use("Helpers");
 const collect = use("collect.js");
+const moment = use("moment");
 const Promise = use("bluebird");
 const { toLowerCase } = use("App/Helpers/String");
 
@@ -27,6 +30,12 @@ const ImoviewAPIDataService = use(
 
 const ReserveService = use(
   `${Env.get("REGISTER_SECTOR_MODULE")}/Reserve/Services/ReserveService`
+);
+
+const SendEmailReserveService = use(
+  `${Env.get(
+    "REGISTER_SECTOR_MODULE"
+  )}/Reserve/Services/SendEmailReserveService`
 );
 
 class QueryController {
@@ -185,10 +194,68 @@ class QueryController {
     return await FluxAttendance.query()
       .where({ module_name: "register_reserve" })
       .with("userData", builder => {
-        builder.setVisible(["name", "last_name"])
+        builder.setVisible(["name", "last_name"]);
       })
       .orderBy("score", "asc")
       .fetch();
+  }
+
+  /**
+   * Retorna os dados do email escolhido pelo usuário
+   * @param {*} param0
+   */
+  async getEmailData({ request, response }) {
+    const requestData = request.all();
+    let dataEmail;
+
+    if (!requestData.type_email) {
+      return response.dispatch(400, "Informe o tipo de email");
+    }
+
+    /** dados da reserva */
+    const reserveData = await ReserveModel.query()
+      .where({ id: requestData.reserve_id })
+      .first();
+
+    /** verifica se a reserva esta finalizada para liberar os dados do email */
+    if (
+      reserveData.status !== "as" &&
+      reserveData.status !== "ap" &&
+      reserveData.status !== "af"
+    ) {
+      return response.dispatch(
+        400,
+        "Status da reserva não permite o envio de email"
+      );
+    }
+
+    if (requestData.type_email === "owner_notification_new_location") {
+      const data = reserveData.toJSON();
+      data.owner_name = requestData.client_name;
+      data.zip_code = "";
+      data.city = "montes claros";
+      data.state = "mg";
+      data.date_end_contract = moment(data.date_init_contract)
+        .add(data.deadline, "months")
+        .format("YYYY-MM-DD");
+      data.date_primary_rent = moment(data.conclusion)
+        .add(1, "months")
+        .format("YYYY-MM-DD");
+
+      dataEmail = await SendEmailReserveService.textOwnerNotification(data);
+    }
+
+    if (requestData.type_email === "welcome_tenant") {
+      return Promise.try(() => {
+        const file = fs.readFileSync(Helpers.resourcesPath("images/welcome.png"));
+        var buf = Buffer.from(file);
+        var base64 = buf.toString("base64");
+        //console.log('Base64 of ddr.jpg :' + base64);
+        return JSON.stringify({base_64_image: base64});
+      });
+    }
+
+    return dataEmail;
   }
 }
 

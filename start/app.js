@@ -22,7 +22,8 @@ const providers = [
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/websocket/providers/WsProvider',
   path.join(__dirname, "..", "app/Providers", "MessageProvider"),
-  '@adonisjs/framework/providers/ViewProvider'
+  '@adonisjs/framework/providers/ViewProvider',
+  '@adonisjs/mail/providers/MailProvider'
 ]
 
 /*

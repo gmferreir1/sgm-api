@@ -12,6 +12,7 @@ Route.group(() => {
   Route.get("attendants-for-filter", `${MODULE_PATH}/Reserve/Controllers/QueryController.getAttendandtsForFilter`);
   Route.get("get-years-available-to-report", `${MODULE_PATH}/Reserve/Controllers/QueryController.getYearsAvailableToReport`);
   Route.get("score", `${MODULE_PATH}/Reserve/Controllers/QueryController.getModuleScore`);
+  Route.get("get-email-data", `${MODULE_PATH}/Reserve/Controllers/QueryController.getEmailData`);
 })
   .prefix("register-sector/reserve/query")
   .middleware("auth");
@@ -24,6 +25,7 @@ Route.group(() => {
   Route.put("/:id", `${MODULE_PATH}/Reserve/Controllers/ReserveController.update`).validator(`${MODULE_PATH}/Reserve/Validators/Update`);
   Route.put("/:id/cancel-reserve", `${MODULE_PATH}/Reserve/Controllers/ReserveController.cancelReserve`);
   Route.get("printer/report", `${MODULE_PATH}/Reserve/Controllers/PrinterReportController.printerReport`);
+  Route.get("email/send", `${MODULE_PATH}/Reserve/Controllers/ReserveEmailController.sendEmail`);
 }).prefix("register-sector/reserve").middleware("auth");
 
 
