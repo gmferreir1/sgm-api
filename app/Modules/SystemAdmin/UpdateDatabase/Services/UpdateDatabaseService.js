@@ -28,6 +28,14 @@ class UpdateDatabaseService {
           .where({ name: data_[6].toLowerCase() })
           .first();
 
+        let address;
+
+        if (data_[31] != undefined) {
+          address = `${data_[29]} ${data_[30]}, ${data_[31]}`;
+        } else {
+          address = data_[30] ? `${data_[29]} ${data_[30]}` : `${data_[29]}`;
+        }
+
         const dataToCreate = {
           immobile_code: data_[0],
           immobile_code_extra: data_[1],
@@ -47,9 +55,7 @@ class UpdateDatabaseService {
             ? null
             : parseInt(data[26].replace(/\D/g, "")),
           zip_code: !data[28] ? null : data[28].replace(/\D/g, ""),
-          address: data[31]
-            ? `${data[29]} ${data[30]}, ${data[31]}`
-            : `${data[29]} ${data[30]}`,
+          address: address,
           neighborhood: data[33],
           city: data[35],
           state: data[36]

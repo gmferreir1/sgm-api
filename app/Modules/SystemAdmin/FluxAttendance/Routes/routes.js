@@ -8,4 +8,5 @@ Route.group(() => {
   Route.put("/:id", `${MODULE_PATH}/FluxAttendance/Controllers/FluxAttendanceController.update`).validator(`${MODULE_PATH}/FluxAttendance/Validators/Update`);
   Route.get("", `${MODULE_PATH}/FluxAttendance/Controllers/FluxAttendanceController.all`);
   Route.delete("/:id", `${MODULE_PATH}/FluxAttendance/Controllers/FluxAttendanceController.delete`);
+  Route.get("get-next-attendance", `${MODULE_PATH}/FluxAttendance/Controllers/FluxAttendanceController.getNextAttendance`);
 }).prefix("admin/flux-attendance").middleware("auth");

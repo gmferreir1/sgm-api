@@ -1,10 +1,11 @@
 "use strict";
 const Env = use("Env");
 const { toLowerCase } = use("App/Helpers/String");
-const FluxAttendanceModel = use(`${Env.get("ADMIN_MODULE")}/FluxAttendance/Models/FluxAttendance`);
+const FluxAttendanceModel = use(
+  `${Env.get("ADMIN_MODULE")}/FluxAttendance/Models/FluxAttendance`
+);
 
 class FluxAttendanceController {
-
   /**
    * Cria um novo fluxo de atendimento no sistema
    * @param {*} param0
@@ -19,7 +20,10 @@ class FluxAttendanceController {
       .first();
 
     if (check && check.id) {
-      return response.dispatch(400, "Fluxo de atendimento cadastrado no sistema");
+      return response.dispatch(
+        400,
+        "Fluxo de atendimento cadastrado no sistema"
+      );
     }
 
     await FluxAttendanceModel.create(requestData);
@@ -62,6 +66,26 @@ class FluxAttendanceController {
     return await FluxAttendanceModel.query()
       .where({ id })
       .delete();
+  }
+
+  /**
+   * Retorna o proximo atendente de acordo o modulo passado
+   * @param {*} param0 
+   */
+  async getNextAttendance({ request, response, auth }) {
+    const requestData = request.all();
+
+    if (!requestData.module_name) {
+      return response.dispatch(400, "Nome do modulo não informado !");
+    }
+
+    return FluxAttendanceModel.query()
+      .where({ module_name: requestData.module_name })
+      .with("userData", builder => {
+        builder.setVisible(["name", "last_name"])
+      })
+      .orderBy("score", "asc")
+      .fetch();
   }
 }
 

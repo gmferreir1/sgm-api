@@ -30,7 +30,7 @@ class ReasonController {
    */
   async all({ request }) {
     const requestData = request.all();
-    
+
     const query = ReasonModel.query();
 
     if (requestData.module_name && requestData.type_reason) {
@@ -46,6 +46,28 @@ class ReasonController {
       })
       .orderBy("module_name", "ASC")
       .orderBy("reason", "ASC")
+      .fetch();
+  }
+
+  /**
+   * Retorna os motivos do modulo e tipo de motivo passado por parametro
+   * @param {*} param0
+   */
+  async getReasonsPerModule({ request, response }) {
+
+    const requestData = request.all();
+
+    const module_name = requestData.module_name;
+    const type_reason = requestData.type_reason;
+
+    if (!module_name && !type_reason) {
+      return response.dispatch(400, "Informe o modulo e o tipo de motivo");
+    }
+
+    return await ReasonModel.query()
+      .where({ module_name, type_reason })
+      .orderBy("reason", "ASC")
+      .select("id", "reason")
       .fetch();
   }
 

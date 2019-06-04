@@ -111,13 +111,13 @@
               <td class="text-left">{{ !list.contract ? " - " : list.contract }}</td>
               <td class="text-left" style="text-transform: uppercase">{{ list.immobile_code }}</td>
               <td class="text-left">{{ list.address }} {{ list.neighborhood }}</td>
-              <td class="text-left">{{ list.reasonTransferData.reason }}</td>
+              <td class="text-left">{{ list.reasonTransfer.reason }}</td>
               <td class="text-left">{{ list.requester_name }}</td>
               <td class="text-left">
                   {{ list.requester_phone_01.length === 10 ? setMask("(XX) XXXX-XXXX",list.requester_phone_01) : setMask("(XX) X XXXX-XXXX",list.requester_phone_01) }}
               </td>
               <td class="text-left">{{ getStatusTransfer(list.status) }}</td>
-              <td class="text-left">{{ list.responsibleReserve.name }}</td>
+              <td class="text-left">{{ list.responsibleTransfer.name }}</td>
               <td class="text-left">{{ list.end_process ? dateFormat(list.end_process, "DD/MM/YYYY") : " - " }}</td>
               <td class="text-center">{{ diffDays(list.transfer_date, list.end_process) }} (D)</td>
           </tr>

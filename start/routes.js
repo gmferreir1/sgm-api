@@ -27,6 +27,8 @@ require("../app/Modules/SystemAdmin/FluxAttendance/Routes/routes");
 require("../app/Modules/SystemAdmin/Reason/Routes/routes");
 require("../app/Modules/SystemAdmin/LetterAndDocuments/Routes/routes");
 require("../app/Modules/RegisterSector/Reserve/Routes/routes");
+require("../app/Modules/APIExternal/Routes/routes");
+require("../app/Modules/RegisterSector/TransferContract/Routes/routes");
 
 Route.get("/", () => {
   return { result: "API SGM" };
