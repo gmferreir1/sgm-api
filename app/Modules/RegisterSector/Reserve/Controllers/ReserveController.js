@@ -31,6 +31,12 @@ const ReserveService = use(
   `${Env.get("REGISTER_SECTOR_MODULE")}/Reserve/Services/ReserveService`
 );
 
+const SendEmailReserveService = use(
+  `${Env.get(
+    "REGISTER_SECTOR_MODULE"
+  )}/Reserve/Services/SendEmailReserveService`
+);
+
 const ReserveModel = use(
   `${Env.get("REGISTER_SECTOR_MODULE")}/Reserve/Models/Reserve`
 );
@@ -204,6 +210,14 @@ class ReserveController {
         .where({ id })
         .update(requestData)
         .into("register_reserves");
+
+      /** se o usuário finalizou a reserva, envia email para
+       * tesouraria@masterimoveis.com.br
+       * apoio@masterimoveis.com.br
+       */
+      if (requestData.conclusion) {
+        SendEmailReserveService.sendEmailEndReserve(reserveData.toJSON());
+      }
 
       trx.commit();
       return response.dispatch(200, "success");

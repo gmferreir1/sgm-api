@@ -1,7 +1,10 @@
 "use strict";
 
 const Env = use("Env");
+const Helpers = use("Helpers");
 const Promise = use("bluebird");
+const Mail = use("Mail");
+const Logger = use("App/Helpers/Logger");
 const { moneyFormat } = use("App/Helpers/String");
 const { dateFormat } = use("App/Helpers/DateTime");
 
@@ -53,7 +56,6 @@ class SendEmailReserveService {
       data.isent_clause
     ];
 
-    
     let text = defaultText;
 
     await Promise.each(search, async (value, index) => {
@@ -67,6 +69,36 @@ class SendEmailReserveService {
     });
 
     return text;
+  }
+
+  /**
+   * Envia um email para o financeiro e o apoio informando de que o contrato foi celebrado
+   * @param {*} reserveData
+   */
+  static sendEmailEndReserve(reserveData) {
+    let subject;
+    let view;
+
+    subject = "Novo contrato celebrado";
+    view = "RegisterSector.Email.new_contract_celebrated";
+
+    console.log(Env.get("FINANCE_EMAIL"))
+
+    try {
+      Mail.send(view, { data: reserveData }, message => {
+        message.embed(Helpers.resourcesPath("images/logo.png"), "logo");
+
+        message
+          .to(Env.get("FINANCE_EMAIL"))
+          .cc(Env.get("APOIO_EMAIL"))
+          .from("sigem@masterimoveis.com.br")
+          .subject(subject);
+      });
+    } catch (error) {
+      console.log(error)
+      Logger.create(error);
+      return response.dispatch(500, "error: check system log");
+    }
   }
 }
 
