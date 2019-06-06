@@ -14,12 +14,21 @@ class AddContractCelebratedsSchema extends Schema {
         .text("observation")
         .nullable()
         .after("rp_release_reserve");
+      table.boolean("low_ticket").default(false);
+      table.boolean("low_tx_contract").default(false);
+      table.boolean("low_bank_expense").default(false);
     });
   }
 
   down() {
     this.table("register_reserve_contract_celebrateds", table => {
-      table.dropColumn(["opened", "observation"]);
+      table.dropColumn([
+        "opened",
+        "observation",
+        "low_ticket",
+        "low_tx_contract",
+        "low_bank_expense"
+      ]);
     });
   }
 }

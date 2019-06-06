@@ -91,6 +91,7 @@ class SendEmailReserveService {
         message
           .to(Env.get("FINANCE_EMAIL"))
           .cc(Env.get("APOIO_EMAIL"))
+          .cc(Env.get("FINANCE_EMAIL_2"))
           .from("sigem@masterimoveis.com.br")
           .subject(subject);
       });

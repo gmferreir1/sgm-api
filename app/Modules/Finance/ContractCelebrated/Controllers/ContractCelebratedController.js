@@ -93,6 +93,9 @@ class ContractCelebratedController {
       status_general: requestData.status_general ? "r" : "p",
       status_iptu: requestData.status_iptu ? "r" : "p",
       status_tcrs: requestData.status_tcrs ? "r" : "p",
+      low_ticket: requestData.low_ticket,
+      low_tx_contract: requestData.low_tx_contract,
+      low_bank_expense: requestData.low_bank_expense,
       responsible: auth.user.id,
       observation: observation
     };
@@ -118,6 +121,9 @@ class ContractCelebratedController {
       status_general: status.status_general ? "r" : "p",
       status_iptu: status.status_iptu ? "r" : "p",
       status_tcrs: status.status_tcrs ? "r" : "p",
+      low_ticket: status.low_ticket,
+      low_tx_contract: status.low_tx_contract,
+      low_bank_expense: status.low_bank_expense,
       opened: true
     };
 
@@ -131,7 +137,6 @@ class ContractCelebratedController {
       trx.commit();
       return response.dispatch(200, "success");
     } catch (error) {
-      console.log(error)
       Logger.create(error);
       trx.rollback();
       return response.dispatch(500, "error: check system log");
