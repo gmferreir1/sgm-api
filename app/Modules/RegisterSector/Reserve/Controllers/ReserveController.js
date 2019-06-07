@@ -216,7 +216,14 @@ class ReserveController {
        * apoio@masterimoveis.com.br
        */
       if (requestData.conclusion) {
-        SendEmailReserveService.sendEmailEndReserve(reserveData.toJSON());
+        const dataToEmail = {
+          contract: contractData.contract,
+          immobile_code: reserveData.immobile_code,
+          address: reserveData.address,
+          neighborhood: reserveData.neighborhood,
+        }
+
+        SendEmailReserveService.sendEmailEndReserve(dataToEmail);
       }
 
       trx.commit();

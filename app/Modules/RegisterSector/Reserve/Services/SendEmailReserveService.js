@@ -82,8 +82,6 @@ class SendEmailReserveService {
     subject = "Novo contrato celebrado";
     view = "RegisterSector.Email.new_contract_celebrated";
 
-    console.log(Env.get("FINANCE_EMAIL"))
-
     try {
       Mail.send(view, { data: reserveData }, message => {
         message.embed(Helpers.resourcesPath("images/logo.png"), "logo");
