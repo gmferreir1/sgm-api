@@ -28,7 +28,7 @@
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/vow": "^1.0.17",
     "@adonisjs/websocket": "^1.0.11",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bluebird": "^3.5.4",
     "collect.js": "^4.12.2",
     "docx-templates": "^3.0.0",
