@@ -34,7 +34,7 @@
     "docx-templates": "^3.0.0",
     "firebird": "^0.1.3",
     "iconv-lite": "^0.4.24",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
     "node-xlsx": "^0.15.0",
